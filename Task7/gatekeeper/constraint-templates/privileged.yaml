@@ -1,0 +1,37 @@
+# Запрет привилегированных контейнеров: securityContext.privileged: true.
+# Проверяются обычные, init- и ephemeral-контейнеры.
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8sdenyprivileged
+  annotations:
+    description: Запрещает контейнеры с securityContext.privileged = true.
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sDenyPrivileged
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      code:
+        - engine: Rego
+          source:
+            version: "v1"
+            rego: |
+              package k8sdenyprivileged
+
+              containers contains c if {
+                some c in input.review.object.spec.containers
+              }
+              containers contains c if {
+                some c in input.review.object.spec.initContainers
+              }
+              containers contains c if {
+                some c in input.review.object.spec.ephemeralContainers
+              }
+
+              violation contains {"msg": msg} if {
+                some c in containers
+                c.securityContext.privileged == true
+                msg := sprintf("контейнер %q: privileged: true запрещён", [c.name])
+              }

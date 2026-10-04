@@ -1,0 +1,12 @@
+# Применение шаблона K8sDenyHostPath к подам в audit-zone.
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sDenyHostPath
+metadata:
+  name: deny-hostpath
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    namespaces: ["audit-zone"]

@@ -1,0 +1,62 @@
+# Требования к пользователю и файловой системе контейнера:
+#   - runAsNonRoot: true (в контейнере или, если там не задано, на уровне пода);
+#   - runAsUser не равен 0 (runAsNonRoot не мешает явно указать UID 0 в манифесте);
+#   - readOnlyRootFilesystem: true (задаётся только на уровне контейнера).
+# readOnlyRootFilesystem проверяется здесь же, потому что структура задания отводит
+# под правила только три шаблона.
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8srunasnonroot
+  annotations:
+    description: Требует runAsNonRoot = true, runAsUser != 0 и readOnlyRootFilesystem = true.
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRunAsNonRoot
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      code:
+        - engine: Rego
+          source:
+            version: "v1"
+            rego: |
+              package k8srunasnonroot
+
+              pod_sc := object.get(input.review.object.spec, "securityContext", {})
+
+              containers contains c if {
+                some c in input.review.object.spec.containers
+              }
+              containers contains c if {
+                some c in input.review.object.spec.initContainers
+              }
+              containers contains c if {
+                some c in input.review.object.spec.ephemeralContainers
+              }
+
+              # Значение из контейнера, иначе из пода, иначе default.
+              effective(c, field, default_value) := v if {
+                v := c.securityContext[field]
+              } else := v if {
+                v := pod_sc[field]
+              } else := default_value
+
+              violation contains {"msg": msg} if {
+                some c in containers
+                effective(c, "runAsNonRoot", false) != true
+                msg := sprintf("контейнер %q: требуется runAsNonRoot: true", [c.name])
+              }
+
+              violation contains {"msg": msg} if {
+                some c in containers
+                effective(c, "runAsUser", null) == 0
+                msg := sprintf("контейнер %q: запуск от root (runAsUser: 0) запрещён", [c.name])
+              }
+
+              violation contains {"msg": msg} if {
+                some c in containers
+                object.get(c, ["securityContext", "readOnlyRootFilesystem"], false) != true
+                msg := sprintf("контейнер %q: требуется readOnlyRootFilesystem: true", [c.name])
+              }

@@ -1,0 +1,37 @@
+# Исправление 02-hostpath-pod.yaml: hostPath заменён на emptyDir.
+# Каталог живёт столько же, сколько под, и не даёт доступа к файловой системе узла.
+# Если данные должны пережить под, вместо emptyDir подключается PersistentVolumeClaim.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-emptydir
+  namespace: audit-zone
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: nginx
+      image: nginxinc/nginx-unprivileged:1.31-alpine
+      ports:
+        - containerPort: 8080
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        capabilities:
+          drop: ["ALL"]
+      volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: tmp
+          mountPath: /tmp
+  volumes:
+    - name: data
+      emptyDir: {}
+    - name: tmp
+      emptyDir: {}

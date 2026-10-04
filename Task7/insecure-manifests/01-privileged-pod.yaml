@@ -1,0 +1,12 @@
+# Нарушение: привилегированный контейнер (privileged: true).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-privileged
+  namespace: audit-zone
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      securityContext:
+        privileged: true

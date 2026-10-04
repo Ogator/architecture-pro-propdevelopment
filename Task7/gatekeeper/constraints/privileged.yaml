@@ -1,0 +1,14 @@
+# Применение шаблона K8sDenyPrivileged к подам в audit-zone.
+# Область ограничена audit-zone: системные компоненты (Calico, kube-proxy) работают
+# привилегированно, и ограничение на весь кластер не дало бы им перезапуститься.
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sDenyPrivileged
+metadata:
+  name: deny-privileged
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    namespaces: ["audit-zone"]

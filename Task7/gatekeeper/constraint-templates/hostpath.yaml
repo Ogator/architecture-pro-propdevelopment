@@ -1,0 +1,26 @@
+# Запрет томов hostPath: они дают поду доступ к файловой системе узла.
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8sdenyhostpath
+  annotations:
+    description: Запрещает тома типа hostPath.
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sDenyHostPath
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      code:
+        - engine: Rego
+          source:
+            version: "v1"
+            rego: |
+              package k8sdenyhostpath
+
+              violation contains {"msg": msg} if {
+                some v in input.review.object.spec.volumes
+                v.hostPath
+                msg := sprintf("том %q: hostPath (%v) запрещён", [v.name, v.hostPath.path])
+              }
