@@ -1,0 +1,67 @@
+# Политика аудита для контроля безопасности подов.
+# Записывает попытки создать поды в audit-zone (включая отклонённые) и любые изменения
+# механизмов контроля: меток Pod Security на namespace, шаблонов и ограничений Gatekeeper,
+# конфигурации вебхуков.
+#
+# По отклонённым запросам в журнале видно, кто и что пытался развернуть:
+#   - отказ PodSecurity: responseStatus.code 403, аннотация pod-security.kubernetes.io/enforce-policy;
+#   - отказ Gatekeeper: responseStatus.message "admission webhook "validation.gatekeeper.sh" denied ...".
+# Аннотация pod-security.kubernetes.io/audit-violations пишется и для подов, которые приняты,
+# но нарушают уровень audit namespace.
+#
+# Подключение: так же, как в задании 6 (Task6/01-start-minikube-audit.sh).
+apiVersion: audit.k8s.io/v1
+kind: Policy
+# Каждое действие записывается один раз, по завершении запроса.
+omitStages:
+  - RequestReceived
+rules:
+  # Поды в audit-zone: тело запроса, чтобы видеть нарушающую конфигурацию.
+  - level: Request
+    verbs: ["create", "update", "patch"]
+    namespaces: ["audit-zone"]
+    resources:
+      - group: ""
+        resources: ["pods", "pods/ephemeralcontainers"]
+
+  # exec и attach в поды audit-zone.
+  - level: Metadata
+    namespaces: ["audit-zone"]
+    resources:
+      - group: ""
+        resources: ["pods/exec", "pods/attach", "pods/portforward"]
+
+  # Изменение namespace: снятие или ослабление меток pod-security.kubernetes.io/*.
+  - level: RequestResponse
+    verbs: ["create", "update", "patch", "delete"]
+    resources:
+      - group: ""
+        resources: ["namespaces"]
+
+  # Изменение правил Gatekeeper и его конфигурации.
+  - level: RequestResponse
+    verbs: ["create", "update", "patch", "delete", "deletecollection"]
+    resources:
+      - group: "templates.gatekeeper.sh"
+      - group: "constraints.gatekeeper.sh"
+      - group: "config.gatekeeper.sh"
+
+  # Изменение регистрации вебхуков: удаление вебхука Gatekeeper отключает все его правила.
+  - level: RequestResponse
+    verbs: ["create", "update", "patch", "delete", "deletecollection"]
+    resources:
+      - group: "admissionregistration.k8s.io"
+        resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"]
+
+  # Secrets только на уровне Metadata, чтобы их содержимое не попало в журнал.
+  - level: Metadata
+    resources:
+      - group: ""
+        resources: ["secrets"]
+
+  # Чтение без изменений не записывается.
+  - level: None
+    verbs: ["get", "list", "watch"]
+
+  # Остальное — на уровне Metadata.
+  - level: Metadata

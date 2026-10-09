@@ -1,0 +1,316 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="data-security-mindmap" name="Безопасность данных">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n3" value="&lt;b&gt;Безопасность данных&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="686" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="&lt;b&gt;Публичные данные&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="422" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value='&lt;b&gt;Данные компании:&lt;/b&gt;&lt;ul style="margin:4px 0 0 0;padding-left:16px"&gt;&lt;li&gt;Каталог объектов на витрине продаж: описания ЖК, планировки, фото, цены, статус доступности (client-mart-estate-db → витрина)&lt;/li&gt;&lt;li&gt;Публичные материалы онлайн-туров (3D-модели квартир, client-tour-db)&lt;/li&gt;&lt;li&gt;Общие новости и объявления управляющей компании для жильцов&lt;/li&gt;&lt;li&gt;Маркетинговые материалы, условия акций и ипотечных программ&lt;/li&gt;&lt;li&gt;Публичные сведения о компании и ЖК: адреса, сроки сдачи, проектные декларации&lt;/li&gt;&lt;/ul&gt;' style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="830" y="341" width="330" height="232" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="&lt;b&gt;Утечка данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;незначительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="570" y="225" width="200" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="Данные изначально опубликованы на витрине и в открытых источниках. Их раскрытие не нарушает законодательство и не даёт злоумышленнику преимуществ. Максимум — массовый парсинг каталога конкурентами." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="225" width="480" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="&lt;b&gt;Потеря данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;незначительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="570" y="312" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" value="Первоисточник — client-mart-estate-db, для которой настроено резервное копирование. Витрина не хранит данные сама и восстанавливается из БД, контент дублируется в маркетинговых системах. Простой будет кратковременным." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="312" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="&lt;b&gt;Искажение данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="414" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="Витрина получает данные по REST и публикует их всем клиентам. Подмена цен или планировок (дефейс, ошибка интеграции) приведёт к претензиям по Закону о защите прав потребителей и ФЗ «О рекламе», к бронированиям по неверной цене и репутационному ущербу." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="414" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="&lt;b&gt;Некачественные данные&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="516" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="Каталог распространяется через Kafka между client-mart-app, client-tour-app и витриной и может рассинхронизироваться. Устаревший статус доступности — клиент бронирует проданную квартиру и тратит время на осмотр/тур. Растут жалобы, падает конверсия продаж." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="516" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" value="&lt;b&gt;Обесценивание данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;незначительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="570" y="618" width="200" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n26" value="Публичные данные не являются конкурентным активом сами по себе. Их ценность падает только при устаревании, что закрывается регулярной актуализацией каталога." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="618" width="480" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" value="&lt;b&gt;Внутренние данные&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="964" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" value='&lt;b&gt;Данные компании:&lt;/b&gt;&lt;ul style="margin:4px 0 0 0;padding-left:16px"&gt;&lt;li&gt;Графики и история текущего и капитального ремонта (tenant-core-db)&lt;/li&gt;&lt;li&gt;Служебные данные об объектах: внутренние статусы, резервы, события каталога в Kafka&lt;/li&gt;&lt;li&gt;Агрегированная обезличенная отчётность и витрины BI&lt;/li&gt;&lt;li&gt;Оргструктура и учётные записи сотрудников в Active Directory (без секретов)&lt;/li&gt;&lt;li&gt;Техническая документация, архитектура, конфигурации, журналы сервисов&lt;/li&gt;&lt;li&gt;Регламенты операционных команд, внутренние справочники&lt;/li&gt;&lt;/ul&gt;' style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="830" y="874" width="330" height="248" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" value="&lt;b&gt;Утечка данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="759" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n34" value="Сведения об архитектуре, конфигурациях и оргструктуре AD упрощают целевые атаки и социальную инженерию. Внутренние статусы объектов и планы работ — коммерчески значимая информация. Прямых штрафов нет, но ущерб заметный, а единственный специалист по ИБ видит не все изменения." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="759" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n36" value="&lt;b&gt;Потеря данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="861" width="200" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n38" value="История ремонтных работ нужна УК для исполнения обязательств по ЖК РФ и гарантийных обязательств застройщика, собственники видят её в приложении. Потеря журналов лишает возможности расследовать инциденты. Резервные копии снижают риск, но регулярные тесты восстановления не подтверждены." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="861" width="480" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n40" value="&lt;b&gt;Искажение данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="978" width="200" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n42" value="Неверные графики ремонтов — жалобы собственников и срыв работ. Искажённые витрины BI — ошибочные управленческие решения. Несанкционированные изменения в AD — эскалация привилегий сотрудников." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="978" width="480" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n44" value="&lt;b&gt;Некачественные данные&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1065" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n46" value="В DWH данные приходят через CDC из многих систем без единой модели и Data Governance. Дубли и несогласованность делают отчётность недостоверной и блокируют запуск BI/ML/AI-продуктов — прямо заявленную потребность бизнеса." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1065" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n48" value="&lt;b&gt;Обесценивание данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;незначительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1167" width="200" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n50" value="Внутренние данные ценны для операционной деятельности и аналитики. Без метаданных и каталога данных их ценность снижается постепенно, это исправимо внедрением Data Governance без прямого ущерба." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1167" width="480" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="n52" value="&lt;b&gt;Конфиденциальные данные&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="407" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n54" value='&lt;b&gt;Данные компании:&lt;/b&gt;&lt;ul style="margin:4px 0 0 0;padding-left:16px"&gt;&lt;li&gt;ПД клиентов: ФИО, телефон, e-mail из формы бронирования; расширенная анкета&lt;/li&gt;&lt;li&gt;Карточки и профили клиентов, история взаимодействий (client-crm-app, crm-db)&lt;/li&gt;&lt;li&gt;Бронирования и результаты осмотров/онлайн-туров (client-mart-db, client-tour-db)&lt;/li&gt;&lt;li&gt;ПД собственников: ФИО, адрес квартиры, лицевые счета, контакты (CRM, crm-tenant-db)&lt;/li&gt;&lt;li&gt;Начисления и история оплат ЖКУ (tenant-core-db)&lt;/li&gt;&lt;li&gt;Данные клиентов и ЖК, передаваемые партнёрам-УК через API&lt;/li&gt;&lt;li&gt;Сырые данные в DWH (Greenplum, S3), полученные через CDC&lt;/li&gt;&lt;li&gt;Коммерческие условия договоров с поставщиками ЖКУ и партнёрами&lt;/li&gt;&lt;/ul&gt;' style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="2040" y="278" width="330" height="328" as="geometry" />
+        </mxCell>
+        <mxCell id="n56" value="&lt;b&gt;Утечка данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;критический&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="180" width="200" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n58" value="ПД клиентов и собственников защищаются 152-ФЗ. За утечку — штрафы по ст. 13.11 КоАП (при повторной — оборотные) и уголовная ответственность по ст. 272.1 УК РФ. Риск усиливают: отсутствие ограничений доступа в DWH, ПД в контрактах API партнёров, доступ одной УК к клиентам другой. Утечка у конкурента показала масштаб ущерба." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="180" width="480" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n60" value="&lt;b&gt;Потеря данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="297" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n62" value="Резервное копирование всех БД снижает вероятность необратимой потери. Но потеря CRM-данных останавливает продажи и обслуживание собственников, потеря истории оплат порождает споры по начислениям, а 152-ФЗ требует обеспечивать сохранность ПД." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="297" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n64" value="&lt;b&gt;Искажение данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;критический&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="399" width="200" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n66" value="Клиенты уже видят в личном кабинете чужие ФИО — признак ошибочного связывания записей при нескольких несогласованных точках регистрации. Это одновременно нарушение целостности и раскрытие ПД третьим лицам. Партнёр-УК может изменить данные чужих клиентов через API. Неверные начисления ЖКУ ведут к претензиям." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="399" width="480" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n68" value="&lt;b&gt;Некачественные данные&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="516" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n70" value="Без мастер-данных клиента появляются дубли и разные версии ФИО и телефонов в витрине, client-crm-app и CRM ЖКУ. Страдают сервис и аналитика, нарушается требование точности ПД (ст. 5 152-ФЗ). Исправимо через MDM и дедупликацию, поэтому не критический." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="516" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n72" value="&lt;b&gt;Обесценивание данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="618" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n74" value="ПД собраны для бронирования и обслуживания. Без согласий на иные цели (аналитика, ML, передача партнёрам) их нельзя законно использовать в новых data-продуктах — ценность накопленных данных теряется. После утечки клиентская база теряет конкурентную ценность." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="618" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n76" value="&lt;b&gt;Секретные данные&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="994" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n78" value='&lt;b&gt;Данные компании:&lt;/b&gt;&lt;ul style="margin:4px 0 0 0;padding-left:16px"&gt;&lt;li&gt;Данные онлайн-сделки: паспорт, СНИЛС, ИНН, семейное положение, доходы, ипотека, договоры (client-mart-db)&lt;/li&gt;&lt;li&gt;Обмен с госорганами через СМЭВ (Росреестр): заявления, выписки ЕГРН&lt;/li&gt;&lt;li&gt;Платёжные данные и реквизиты (интеграция с платёжной системой)&lt;/li&gt;&lt;li&gt;Аутентификационные данные: учётные записи и хеши паролей (auth-db-1), токены и секреты Keycloak, AD&lt;/li&gt;&lt;li&gt;Криптографические ключи, сертификаты, ключи ЭП, API-ключи партнёров&lt;/li&gt;&lt;li&gt;«Умный дом»: управление замком квартиры, коды доступа, сценарии присутствия&lt;/li&gt;&lt;li&gt;Финансовый учёт компании (accountant-service-1)&lt;/li&gt;&lt;/ul&gt;' style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2040" y="880" width="330" height="296" as="geometry" />
+        </mxCell>
+        <mxCell id="n80" value="&lt;b&gt;Утечка данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;критический&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="774" width="200" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n82" value="Паспортные данные, доходы и договоры — максимальный ущерб субъектам, включая мошенничество с недвижимостью. Утечка учётных данных и ключей ведёт к компрометации всех систем. Доступ к «Умному дому» и замку — угроза физической безопасности жильцов. Действуют 152-ФЗ и требования к платёжным данным (PCI DSS)." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="774" width="480" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="n84" value="&lt;b&gt;Потеря данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;критический&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="891" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n86" value="Юридически значимые документы сделки и результаты регистрации нельзя просто воссоздать. Потеря ключей делает зашифрованные данные недоступными, потеря auth-db-1 останавливает вход покупателей. Потеря бухучёта нарушает 402-ФЗ (хранение документов не менее 5 лет)." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="891" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n88" value="&lt;b&gt;Искажение данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;критический&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="993" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n90" value="Подмена реквизитов в сделке — платёж уходит мошенникам. Ошибки в данных, переданных через СМЭВ, — отказ или некорректная регистрация права собственности. Искажение бухучёта — налоговые санкции. Подмена прав в Keycloak/AD — несанкционированный доступ, ложные команды замку." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="993" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n92" value="&lt;b&gt;Некачественные данные&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="1095" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n94" value="Ошибки в паспортных данных или реквизитах приводят к приостановке регистрации, повторной подаче документов и задержке сделки. Обычно выявляются проверками госорганов до необратимых последствий, поэтому значительный, а не критический." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="1095" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n96" value="&lt;b&gt;Обесценивание данных&lt;/b&gt;&lt;br&gt;Оценка: &lt;b&gt;значительный&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="1197" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n98" value="Скомпрометированные пароли, токены и ключи полностью теряют защитную функцию и требуют экстренной ротации. Данные незавершённой сделки устаревают (выписки ЕГРН быстро теряют актуальность) и требуют повторного запроса." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacing=8;fontSize=11;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="1197" width="480" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n100" value="&lt;b&gt;Mindmap: классификация данных PropDevelopment (ISO/IEC 27001/27002), риски и их оценка&lt;/b&gt;" style="text;html=1;align=center;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="900" y="40" width="1400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n101" value="&lt;b&gt;Шкала оценки риска:&lt;/b&gt;" style="text;html=1;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="90" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n102" value="Незначительный" style="rounded=1;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="92" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n103" value="Значительный" style="rounded=1;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="92" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n104" value="Критический" style="rounded=1;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1770" y="92" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n3" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n4" target="n6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n6" target="n8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n8" target="n10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n6" target="n12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n12" target="n14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n6" target="n16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n16" target="n18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n6" target="n20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n20" target="n22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n6" target="n24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n27" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="n24" target="n26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n3" target="n28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n28" target="n30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n33" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n30" target="n32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n35" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n32" target="n34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n37" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n30" target="n36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n39" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n36" target="n38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n41" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n30" target="n40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n43" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n40" target="n42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n45" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n30" target="n44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n47" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n44" target="n46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n49" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n30" target="n48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n51" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="n48" target="n50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n53" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n3" target="n52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n55" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n52" target="n54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n57" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n54" target="n56">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n59" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n56" target="n58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n61" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n54" target="n60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n63" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n60" target="n62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n65" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n54" target="n64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n67" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n64" target="n66">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n69" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n54" target="n68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n71" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n68" target="n70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n73" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n54" target="n72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n75" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="n72" target="n74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n77" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n3" target="n76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n79" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n76" target="n78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n81" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n78" target="n80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n83" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n80" target="n82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n85" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n78" target="n84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n87" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n84" target="n86">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n89" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n78" target="n88">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n91" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n88" target="n90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n93" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n78" target="n92">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n95" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n92" target="n94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n97" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n78" target="n96">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n99" style="edgeStyle=entityRelationEdgeStyle;curved=1;html=1;endArrow=classic;rounded=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="n96" target="n98">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

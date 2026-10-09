@@ -1,0 +1,12 @@
+# Применение шаблона K8sRunAsNonRoot (runAsNonRoot, UID не 0, readOnlyRootFilesystem) к подам в audit-zone.
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRunAsNonRoot
+metadata:
+  name: require-run-as-non-root
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    namespaces: ["audit-zone"]

@@ -1,0 +1,34 @@
+# Исправление 01-privileged-pod.yaml: убран privileged: true.
+# Остальные поля нужны, чтобы под прошёл уровень restricted и правила Gatekeeper:
+#   - образ nginx-unprivileged работает от UID 101 и слушает порт 8080 (порт ниже 1024 без root не открыть);
+#   - корневая файловая система только для чтения, nginx пишет PID и временные файлы в /tmp (emptyDir).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-unprivileged
+  namespace: audit-zone
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    runAsGroup: 101
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: nginx
+      image: nginxinc/nginx-unprivileged:1.31-alpine
+      ports:
+        - containerPort: 8080
+      securityContext:
+        privileged: false
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        capabilities:
+          drop: ["ALL"]
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}

@@ -1,0 +1,33 @@
+# Исправление 03-root-user-pod.yaml: вместо UID 0 — непривилегированный UID 101.
+# runAsNonRoot: true заставляет kubelet проверить UID перед запуском: если образ или манифест
+# укажут root, контейнер не запустится.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-non-root
+  namespace: audit-zone
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    runAsGroup: 101
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: nginx
+      image: nginxinc/nginx-unprivileged:1.31-alpine
+      ports:
+        - containerPort: 8080
+      securityContext:
+        runAsUser: 101
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: ["ALL"]
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}
